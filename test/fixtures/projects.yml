@@ -1,0 +1,7 @@
+one:
+  name: DevTrack
+  description: Software issue tracking application
+
+two:
+  name: Client Portal
+  description: Customer-facing application

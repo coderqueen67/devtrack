@@ -1,0 +1,127 @@
+<div class="page-header">
+  <div>
+    <h1>DevTrack</h1>
+    <p class="subtitle">Software Issue Tracking Dashboard</p>
+  </div>
+
+  <%= link_to "New Ticket", new_ticket_path, class: "button primary" %>
+</div>
+
+<div class="stats">
+  <div class="stat-card">
+    <span>Total Tickets</span>
+    <strong><%= @total_count %></strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Open</span>
+    <strong><%= @open_count %></strong>
+  </div>
+
+  <div class="stat-card">
+    <span>In Progress</span>
+    <strong><%= @progress_count %></strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Resolved</span>
+    <strong><%= @resolved_count %></strong>
+  </div>
+</div>
+
+<div class="panel">
+
+  <div class="panel-header">
+    <h2>Issue Tickets</h2>
+    <%= link_to "Projects", projects_path, class: "button secondary" %>
+  </div>
+
+  <%= form_with url: tickets_path, method: :get, class: "filter-bar" do %>
+
+    <%= search_field_tag :query,
+        params[:query],
+        placeholder: "Search tickets..." %>
+
+    <%= select_tag :status,
+        options_for_select(
+          [["All Statuses", ""],
+           ["Open", "Open"],
+           ["In Progress", "In Progress"],
+           ["Resolved", "Resolved"]],
+          params[:status]
+        ) %>
+
+    <%= select_tag :priority,
+        options_for_select(
+          [["All Priorities", ""],
+           ["Low", "Low"],
+           ["Medium", "Medium"],
+           ["High", "High"],
+           ["Critical", "Critical"]],
+          params[:priority]
+        ) %>
+
+    <%= submit_tag "Filter" %>
+
+    <%= link_to "Clear", tickets_path, class: "clear-filter" %>
+
+  <% end %>
+
+  <% if @tickets.any? %>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Ticket</th>
+          <th>Project</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th>Due Date</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @tickets.each do |ticket| %>
+          <tr>
+
+            <td>
+              <strong><%= ticket.title %></strong>
+            </td>
+
+            <td>
+              <%= ticket.project.name %>
+            </td>
+
+            <td>
+              <span class="badge">
+                <%= ticket.status %>
+              </span>
+            </td>
+
+            <td>
+              <span class="badge">
+                <%= ticket.priority %>
+              </span>
+            </td>
+
+            <td>
+              <%= ticket.due_date || "—" %>
+            </td>
+
+            <td>
+              <%= link_to "View", ticket_path(ticket) %>
+            </td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  <% else %>
+
+    <p>No tickets match your search.</p>
+
+  <% end %>
+
+</div>

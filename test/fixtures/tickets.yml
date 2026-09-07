@@ -1,0 +1,15 @@
+one:
+  title: Fix login bug
+  description: Investigate failed login attempts
+  status: Open
+  priority: High
+  due_date: 2026-09-10
+  project: one
+
+two:
+  title: Improve dashboard
+  description: Update dashboard user experience
+  status: In Progress
+  priority: Medium
+  due_date: 2026-09-15
+  project: two
